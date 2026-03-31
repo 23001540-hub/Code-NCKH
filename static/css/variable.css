@@ -1,0 +1,199 @@
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS — UNIS Demand Forecast
+   Ngũ Hành Âm Dương (Five Elements Harmony)
+   ────────────────────────────────────────
+   Kim (Metal) ✦ #FFD700 Gold / #E8D5B7 Pearl
+   Mộc (Wood)  ✦ #10b981 Emerald / #34d399 Jade
+   Thủy (Water)✦ #60a5fa Sky / #3b82f6 Ocean
+   Hỏa (Fire)  ✦ #ef4444 Flame / #f97316 Blaze
+   Thổ (Earth) ✦ #f59e0b Amber / #fbbf24 Sun
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  /* ── Neutral Palette — Warm Dark (cam pha xanh) ── */
+  --dark:    #12141c;
+  --dark-2:  #191c26;
+  --dark-3:  #1f2330;
+  --dark-4:  #272c3a;
+  --gray-600: #9198ab;
+  --gray-500: #717a8e;
+  --gray-400: #5c6479;
+  --gray-300: #3f4560;
+  --gray-200: #2d3248;
+  --gray-100: #212536;
+  --gray-50:  #191c28;
+
+  /* ── Mộc (Wood) — Primary Emerald ── */
+  --accent:     #10b981;
+  --accent-2:   #34d399;
+  --accent-dark: #059669;
+  --accent-bg:  rgba(16,185,129,0.12);
+  --accent-bg-2: rgba(52,211,153,0.10);
+
+  /* ── Thổ (Earth) — Warm Amber ── */
+  --earth:     #f59e0b;
+  --earth-dk:  #d97706;
+  --earth-lt:  #fbbf24;
+  --earth-bg:  rgba(245,158,11,0.10);
+
+  /* ── Hỏa (Fire) — Vivid Flame ── */
+  --fire:     #ef4444;
+  --fire-dk:  #dc2626;
+  --fire-lt:  #fb7185;
+  --fire-bg:  rgba(239,68,68,0.10);
+
+  /* ── Kim (Metal) — Gold & Sky ── */
+  --metal:    #FFD700;
+  --metal-dk: #E8B800;
+  --metal-lt: #FFE44D;
+  --metal-bg: rgba(255,215,0,0.08);
+
+  /* ── Thủy (Water) — Ocean Blue ── */
+  --water:    #60a5fa;
+  --water-dk: #3b82f6;
+  --water-lt: #93c5fd;
+  --water-bg: rgba(96,165,250,0.10);
+
+  /* ── Supporting Colors (mapped to elements) ── */
+  --green:    #10b981;   /* Mộc */
+  --green-dk: #059669;
+  --green-bg: rgba(16,185,129,0.10);
+  --red:      #ef4444;   /* Hỏa */
+  --red-dk:   #dc2626;
+  --red-bg:   rgba(239,68,68,0.08);
+  --blue:     #3b82f6;   /* Thủy */
+  --blue-dk:  #2563eb;
+  --blue-bg:  rgba(59,130,246,0.10);
+  --amber:    #f59e0b;   /* Thổ */
+  --amber-dk: #d97706;
+  --amber-bg: rgba(245,158,11,0.10);
+  --purple:   #8b5cf6;   /* Hội Tụ — convergence */
+  --purple-bg: rgba(139,92,246,0.10);
+  --gold:     #FFD700;   /* Kim */
+  --gold-bg:  rgba(255,215,0,0.08);
+  --rose:     #fb7185;
+
+  /* ── Backgrounds — Deep Dark with warm undertone ── */
+  --bg-body:    #0e1019;
+  --bg-card:    rgba(255,255,255,0.05);
+  --bg-card-dk: #0c0e16;
+  --bg-muted:   rgba(255,255,255,0.06);
+  --bg-hover:   rgba(255,255,255,0.10);
+
+  /* ── Text — Warm Light on Dark ── */
+  --text-1: #e8e6e3;
+  --text-2: #9b96a0;
+  --text-3: #645f6e;
+  --text-inv: #0c0e1a;
+
+  /* ── Borders — Subtle Glass ── */
+  --border: rgba(255,255,255,0.08);
+  --border-2: rgba(255,255,255,0.14);
+
+  /* ── Shadows — Deep Glow ── */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.4);
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:  0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg:  0 10px 40px rgba(0,0,0,0.5);
+  --shadow-xl:  0 20px 60px rgba(0,0,0,0.6);
+
+  /* ── Spacing ── */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* ── Radii — very rounded ── */
+  --r-sm:   10px;
+  --r-md:   14px;
+  --r-lg:   20px;
+  --r-xl:   24px;
+  --r-2xl:  28px;
+  --r-full: 9999px;
+
+  /* ── Transitions ── */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --fast: 150ms;
+  --normal: 250ms;
+
+  /* ── Typography ── */
+  --font: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* ── Segment Colors — Ngũ Hành mapping ── */
+  --seg-a:  #10b981;   /* Mộc — forecastable */
+  --seg-b:  #f59e0b;   /* Thổ — intermittent */
+  --seg-c1: #ef4444;   /* Hỏa — sparse new */
+  --seg-c2: #fb7185;   /* Hỏa lt — sparse dead */
+  --seg-d1: #3b82f6;   /* Thủy — new */
+  --seg-d2: #8b5cf6;   /* Hội Tụ — dead */
+
+  /* ── Glow Effects — Ngũ Hành ── */
+  --glow-accent: 0 0 20px rgba(16,185,129,0.3);   /* Mộc */
+  --glow-amber:  0 0 20px rgba(245,158,11,0.3);   /* Thổ */
+  --glow-red:    0 0 20px rgba(239,68,68,0.3);     /* Hỏa */
+  --glow-blue:   0 0 20px rgba(59,130,246,0.3);    /* Thủy */
+  --glow-gold:   0 0 20px rgba(255,215,0,0.3);     /* Kim */
+  --glow-purple: 0 0 20px rgba(139,92,246,0.3);    /* Hội Tụ */
+}
+
+/* ═══════════════════════════════════════════════════
+   BASE RESET
+   ═══════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg-body);
+  color: var(--text-1);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-2); }
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: inherit;
+}
+
+input, select {
+  font-family: var(--font);
+  font-size: 0.875rem;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: var(--r-full);
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* Spinner */
+.spinner {
+  width: 28px; height: 28px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/variable.css">
+  <link rel="stylesheet" href="/static/css/landing.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <script src="https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>U</text></svg>">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- LANDING PAGE — Slide-based presentation -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="landing-page" id="landingPage">
+
+    <!-- Slide nav dots -->
+    <nav class="slide-nav" id="slideNav">
+      <button class="slide-dot active" data-slide="0" title="Hero"></button>
+      <button class="slide-dot" data-slide="1" title="Thách thức"></button>
+      <button class="slide-dot" data-slide="2" title="Phân khúc"></button>
+      <button class="slide-dot" data-slide="3" title="Mô hình"></button>
+      <button class="slide-dot" data-slide="4" title="Kết quả"></button>
+    </nav>
+
+    <!-- ══ SLIDE 1: Hero ══ -->
+    <section class="slide slide-hero" id="slide0">
+      <div class="hero-bg-img" id="heroBgImg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-particles" id="heroParticles"></div>
+      <div class="hero-content">
+        <div class="hero-badge"></div>
+        <h1 class="hero-title">
+          <span class="gradient-text"></span><br>
+          <span class="gradient-text">Forecasting</span>
+        </h1>
+        <p class="hero-subtitle">Dự báo doanh thu bán lẻ| 1679 Focus SKU</p>
+        <div class="hero-stats">
+          <div class="hero-stat" data-aos="up" data-delay="0">
+            <span class="stat-value counter" data-target="1679" data-suffix="">0</span>
+            <span class="stat-label">Focus F_SKU</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="hero-stat" data-aos="up" data-delay="1">
+            <span class="stat-value counter" data-target="33" data-suffix="">0</span>
+            <span class="stat-label">tháng dữ liệu</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="hero-stat" data-aos="up" data-delay="2">
+            <span class="stat-value counter" data-target="00" data-suffix="%">0</span>
+            <span class="stat-label">Mean Accuracy (Qúy 1_2026)</span>
+          </div>
+        </div>
+        <button class="hero-cta" id="heroCta">
+          <span>Khám phá Dashboard</span>
+          <span class="cta-arrow">&rarr;</span>
+        </button>
+      </div>
+      <div class="scroll-indicator" id="scrollIndicator">
+        <div class="scroll-arrow-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 2: Thách thức ══ -->
+    <section class="slide slide-challenge" id="slide1">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="section-badge"></div>
+          <h2 class="section-title">Thách thức của dự báo</h2>
+          <div class="title-underline"></div>
+        </div>
+        <div class="challenge-layout">
+          <div class="challenge-grid">
+            <div class="glass-card challenge-card" data-aos="up" data-delay="0">
+              
+              <h3> Focus F_SKU</h3>
+              <p>Nhóm sản phẩm trọng tâm</p>
+            </div>
+            <div class="glass-card challenge-card" data-aos="up" data-delay="1">
+              
+              <h3>Tính gián đoạn</h3>
+              <p>F_SKU quá thưa hoặc không có lịch sử</p>
+            </div>
+            <div class="glass-card challenge-card" data-aos="up" data-delay="2">
+              
+              <h3>Biến động mùa vụ</h3>
+              <p>Tết, mùa xây dựng, end-of-life</p>
+            </div>
+            <div class="glass-card challenge-card" data-aos="up" data-delay="3">
+              
+              <h3> F_SKU mới</h3>
+              <p>Cold start — chưa có lịch sử bán</p>
+            </div>
+          </div>
+          <div class="challenge-big-stat" data-aos="up" data-delay="2">
+            <div class="big-stat-value">
+              <span class="counter" data-target="0" data-suffix="M+">0</span>
+            </div>
+            <div class="big-stat-label">đơn vị tổng sản lượng (train+test)</div>
+            <div class="big-stat-ring">
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                <circle cx="60" cy="60" r="52" fill="none" stroke="url(#ringGrad1)" stroke-width="8"
+                  stroke-dasharray="0 326.7" stroke-linecap="round"
+                  transform="rotate(-90 60 60)" class="animated-ring" data-pct="85"/>
+              </svg>
+              <defs>
+                <linearGradient id="ringGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#f59e0b"/>
+                  <stop offset="100%" stop-color="#ef4444"/>
+                </linearGradient>
+              </defs>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 3: Phân khúc ══ -->
+    <section class="slide slide-segments" id="slide2">
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="section-badge"></div>
+          <h2 class="section-title">Phân khúc dữ liệu</h2>
+          <p class="section-desc">4 segments dựa trên số tháng bán hàng</p>
+          <div class="title-underline"></div>
+        </div>
+        <div class="segments-layout">
+          <div class="seg-grid-2x2">
+            <div class="glass-card seg-card-new" data-aos="up" data-delay="0" style="--seg-color: #10b981">
+              <div class="seg-card-header">
+                <span class="seg-letter">1</span>
+                <span class="seg-name"></span>
+              </div>
+              <div class="seg-card-count"> F_SKU — 55.79% volume</div>
+              <p class="seg-card-desc">≥12 tháng history</p> <!----, LightGBM + Per-F_SKU routing-->
+              <div class="seg-card-bar"><div class="seg-card-bar-fill" style="width:55.79%;background:#10b981"></div></div>
+            </div>
+            <div class="glass-card seg-card-new" data-aos="up" data-delay="1" style="--seg-color: #f59e0b">
+              <div class="seg-card-header">
+                <span class="seg-letter" style="background:#f59e0b">2</span>
+                <span class="seg-name">MA3 Candidate</span>
+              </div>
+              <div class="seg-card-count"> F_SKU — 29.83% volume</div>
+              <p class="seg-card-desc">3-11 tháng history, lightweight ML + MA3</p>
+              <div class="seg-card-bar"><div class="seg-card-bar-fill" style="width:29.83%;background:#f59e0b"></div></div>
+            </div>
+            <div class="glass-card seg-card-new" data-aos="up" data-delay="2" style="--seg-color: #ef4444">
+              <div class="seg-card-header">
+                <span class="seg-letter" style="background:#cd6060">3</span>
+                <span class="seg-name">Too Sparse</span>
+              </div>
+              <div class="seg-card-count"> F_SKU — 14.38% volume</div>
+              <p class="seg-card-desc">&lt;3 tháng history, MA3 fallback</p>
+              <div class="seg-card-bar"><div class="seg-card-bar-fill" style="width:0%;background:#ef4444"></div></div>
+            </div>
+            <div class="glass-card seg-card-new" data-aos="up" data-delay="3" style="--seg-color: #3b82f6">
+              <div class="seg-card-header">
+                <span class="seg-letter" style="background:#3b82f6">4</span>
+                <span class="seg-name">Cold Start</span>
+              </div>
+              <div class="seg-card-count">0 F_SKU — 0% volume</div>
+              <p class="seg-card-desc">Không có history, MA3 fallback</p>
+              <div class="seg-card-bar"><div class="seg-card-bar-fill" style="width:0%;background:#3b82f6"></div></div>
+            </div>
+          </div>
+          <div class="seg-donut-wrap" data-aos="up" data-delay="2">
+            <svg class="seg-donut" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="62" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="18"/>
+              
+              <circle cx="80" cy="80" r="62" fill="none" stroke="#10b981" stroke-width="18"
+                stroke-dasharray="0 389.6" stroke-linecap="round"
+                transform="rotate(-90 80 80)" class="donut-ring-animated" data-target="389.6" data-total="389.6"/>
+            </svg>
+            <div class="seg-donut-center">
+              <span class="seg-donut-pct counter" data-target="100" data-suffix="%">0</span>
+              <span class="seg-donut-label">coverage</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 4: Feature Engineering & Model ══ -->
+    <!-- <section class="slide slide-model" id="slide3"> -->
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="section-badge"></div>
+          <h2 class="section-title">Mô hình dự báo</h2>
+          <div class="title-underline"></div>
+        </div>
+        <div class="model-layout">
+          <!-- Left: Feature Engineering -->
+          <div class="glass-card model-features" data-aos="up" data-delay="0">
+            <h3 class="model-card-title">Feature Engineering</h3>
+            <div class="feature-version">
+              <div class="fv-badge">V2</div>
+              <div class="fv-detail">
+                <span class="fv-count"> features</span>
+                <span class="fv-tags">Lag, Rolling, Trend, Calendar</span>
+              </div>
+            </div>
+            <div class="fv-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            </div>
+            <div class="feature-version v3">
+              <div class="fv-badge v3-badge">V3</div>
+              <div class="fv-detail">
+                <span class="fv-count"> features</span>
+                <span class="fv-tags">+EWM, Seasonality, Cross-group, Stability, STL</span>
+              </div>
+            </div>
+            <div class="feature-callout">
+              <span class="callout-arrow">&#10140;</span>
+              <span>Per-F_SKU routing: <strong>5 models × 80 Optuna trials</strong></span>
+            </div>
+          </div>
+
+          <!-- Right: Model Results -->
+          <div class="glass-card model-results" data-aos="up" data-delay="1">
+            <h3 class="model-card-title">Kết quả mô hình</h3>
+            <div class="model-bars">
+              <div class="model-bar-row">
+                <div class="bar-label">
+                  <span class="bar-seg" style="background:#10b981">A</span>
+                  <span class="bar-model">ML Candidate (1,101)</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-animated" data-width="34" style="background:linear-gradient(90deg,#10b981,#34d399)"></div>
+                </div>
+                <span class="bar-value" style="color:#10b981">1016 WMA631 / 673 V3 / 398 V2</span>
+              </div>
+              <div class="model-bar-row">
+                <div class="bar-label">
+                  <span class="bar-seg" style="background:#f59e0b">B</span>
+                  <span class="bar-model">MA3 Candidate (507)</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-animated" data-width="24" style="background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
+                </div>
+                <span class="bar-value" style="color:#f59e0b">MA3 fallback</span>
+              </div>
+              <div class="model-bar-row">
+                <div class="bar-label">
+                  <span class="bar-seg" style="background:#ef4444">C+D</span>
+                  <span class="bar-model">Sparse + Cold (479)</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-animated" data-width="23" style="background:linear-gradient(90deg,#ef4444,#fb7185)"></div>
+                </div>
+                <span class="bar-value" style="color:#ef4444">MA3 fallback</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="model-bottom-callout" data-aos="up" data-delay="2">
+          <div class="glass-card callout-card">
+            <span class="callout-icon">💡</span>
+            <span>Production: Per-F_SKU routing — WMA[6,3,1] default + ML override (1016 WMA / 673 V3 / 398 V2)</span>
+          </div>
+        </div>
+      </div>
+    <!-- </section> -->
+
+    <!-- ══ SLIDE 5: Kết quả ══ -->
+    <!-- <section class="slide slide-results" id="slide4"> -->
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="section-badge">Kết quả</div>
+          <h2 class="section-title">Dự báo quý 1-2026 (Focus 1,660 SKU)</h2>
+          <div class="title-underline"></div>
+        </div>
+
+        <!-- KPI row -->
+        <div class="results-kpis">
+          <div class="glass-card kpi-card" data-aos="up" data-delay="0">
+            <span class="kpi-value counter" data-target="" data-suffix="">0</span>
+            <span class="kpi-label">Focus F_SKU</span>
+          </div>
+          <div class="glass-card kpi-card" data-aos="up" data-delay="1">
+            <span class="kpi-value counter" data-target="" data-suffix="">0</span>
+            <span class="kpi-label">tháng forecast</span>
+          </div>
+          <div class="glass-card kpi-card" data-aos="up" data-delay="2">
+            <span class="kpi-value">M</span>
+            <span class="kpi-label">đơn vị tổng forecast</span>
+          </div>
+        </div>
+
+        <!-- Monthly bar chart -->
+        <div class="glass-card results-chart-card" data-aos="up" data-delay="1">
+          <h3 class="results-chart-title">Sản lượng dự báo theo tháng (Focus  SKU)</h3>
+          <div class="css-bar-chart">
+            <div class="css-bar-item">
+              <div class="css-bar-value">M</div>
+              <div class="css-bar-col"><div class="css-bar-fill bar-animated" data-width="93" style="background:linear-gradient(0deg,#3b82f6,#60a5fa)"></div></div>
+              <div class="css-bar-label">Dec</div>
+            </div>
+            <div class="css-bar-item">
+              <div class="css-bar-value">M</div>
+              <div class="css-bar-col"><div class="css-bar-fill bar-animated" data-width="94" style="background:linear-gradient(0deg,#3b82f6,#60a5fa)"></div></div>
+              <div class="css-bar-label">Jan</div>
+            </div>
+            <div class="css-bar-item">
+              <div class="css-bar-value">M</div>
+              <div class="css-bar-col"><div class="css-bar-fill bar-animated" data-width="90" style="background:linear-gradient(0deg,#10b981,#34d399)"></div></div>
+              <div class="css-bar-label">Feb (T&#7871;t)</div>
+            </div>
+            <div class="css-bar-item">
+              <div class="css-bar-value">M</div>
+              <div class="css-bar-col"><div class="css-bar-fill bar-animated" data-width="100" style="background:linear-gradient(0deg,#3b82f6,#60a5fa)"></div></div>
+              <div class="css-bar-label"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accuracy tier -->
+        <div class="glass-card results-accuracy" data-aos="up" data-delay="2">
+          <h3 class="results-chart-title">Phân bổ độ chính xác (T12 — 1,660 SKU)</h3>
+          <div class="accuracy-stacked">
+            <div class="acc-segment" style="width:25.2%;background:#10b981" title="90-100%: 418">
+              <span>90%+ (418)</span>
+            </div>
+            <div class="acc-segment" style="width:13.9%;background:#34d399" title="70-89%: 231">
+              <span>70-89% (231)</span>
+            </div>
+            <div class="acc-segment" style="width:12.8%;background:#60a5fa" title="50-69%: 212">
+              <span>50-69%</span>
+            </div>
+            <div class="acc-segment" style="width:8.3%;background:#f59e0b" title="30-49%: 137">
+              <span>30-49%</span>
+            </div>
+            <div class="acc-segment" style="width:7.9%;background:#fb923c" title="1-29%: 132">
+              <span>1-29%</span>
+            </div>
+            <div class="acc-segment" style="width:31.9%;background:#ef4444" title="0%: 530">
+              <span>0% (530)</span>
+            </div>
+          </div>
+          <div class="accuracy-legend">
+            <span class="acc-leg"><span class="acc-dot" style="background:#10b981"></span>90-100% (418)</span>
+            <span class="acc-leg"><span class="acc-dot" style="background:#34d399"></span>70-89% (231)</span>
+            <span class="acc-leg"><span class="acc-dot" style="background:#60a5fa"></span>50-69% (212)</span>
+            <span class="acc-leg"><span class="acc-dot" style="background:#f59e0b"></span>30-49% (137)</span>
+            <span class="acc-leg"><span class="acc-dot" style="background:#ef4444"></span>0% (530)</span>
+          </div>
+        </div>
+
+        <!-- Final CTA -->
+        <div class="results-cta">
+          <button class="hero-cta final-cta" id="finalCta">
+            <span>Xem chi tiết Dashboard</span>
+            <span class="cta-arrow">&rarr;</span>
+          </button>
+        </div>
+      </div>
+    <!-- </section> -->
+
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- DASHBOARD APP                           -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="app-container" id="appContainer" style="display:none">
+
+    <!-- Stat Header — WhiteRock-style dense data strip -->
+    <div class="stat-header" id="statHeader">
+      <div class="stat-header-item">
+        <span class="stat-header-label">Total FSKU</span>
+        <span class="stat-header-value" id="shTotal">1961</span>
+      </div>
+      <div class="stat-header-item">
+        <span class="stat-header-label">Forecastable</span>
+        <span class="stat-header-value positive" id="shForecast">5</span>
+      </div>
+      <div class="stat-header-item">
+        <span class="stat-header-label">Not Forecastable</span>
+        <span class="stat-header-value negative" id="shNoForecast"></span>
+      </div>
+      <div class="stat-header-item">
+        <span class="stat-header-label">ACT</span>
+        <span class="stat-header-value" id="shACT">--</span>
+      </div>
+      <div class="stat-header-item">
+        <span class="stat-header-label">END</span>
+        <span class="stat-header-value orange" id="shEND">--</span>
+      </div>
+      <div class="stat-header-item">
+        <span class="stat-header-label">Volume</span>
+        <span class="stat-header-value" id="shVolume">--</span>
+      </div>
+      <div class="stat-header-item">
+        <span class="stat-header-label">Forecast Rate</span>
+        <span class="stat-header-value positive" id="shRate">--</span>
+        <span class="stat-header-change up" id="shRateTag"></span>
+      </div>
+    </div>
+
+    <!-- Top Navigation — HomeFlow: logo left, tabs center, actions right -->
+    <nav class="top-nav" id="topNav">
+      <div class="nav-left">
+        <div class="nav-logo" id="navLogo" title="Back to landing">
+          <span class="nav-logo-letter">X</span>
+        </div>
+      </div>
+      <div class="nav-center">
+        <div class="nav-tabs">
+          <button class="nav-tab active" data-tab="sku-list">
+            <span class="tab-icon">&#128202;</span>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-tab" data-tab="detail">
+            <span class="tab-icon">&#128203;</span>
+            <span>Chi ti&#7871;t</span>
+          </button>
+          <button class="nav-tab" data-tab="similarity">
+            <span class="tab-icon">&#128279;</span>
+            <span>Similarity</span>
+          </button>
+          <button class="nav-tab" data-tab="pulse">
+            <span class="tab-icon">&#128200;</span>
+            <span>Pulse</span>
+          </button>
+          <button class="nav-tab" data-tab="forecast">
+            <span class="tab-icon">&#128640;</span>
+            <span>Forecast</span>
+          </button>
+          <button class="nav-tab" data-tab="accuracy">
+            <span class="tab-icon">&#127919;</span>
+            <span>Accuracy</span>
+          </button>
+          
+        </div>
+      </div>
+      <div class="nav-right">
+        <div class="nav-search">
+          <span class="search-icon">&#128269;</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Tab: SKU List -->
+    <div class="tab-content active" id="tab-sku-list">
+
+      <!-- Visual Dashboard Header — Premium Analytics -->
+      <div class="dash-header" id="dashHeader">
+
+        <!-- Row 1: Hero Metrics — 5 big KPI cards -->
+        <div class="dash-metrics">
+          <div class="metric-card metric-total">
+            <div class="metric-icon-wrap"><span class="metric-icon">&#9638;</span></div>
+            <div class="metric-body">
+              <span class="metric-label">TỔNG FSKU</span>
+              <span class="metric-value" id="sumTotal">1961</span>
+            </div>
+            <div class="metric-bar"><div class="metric-bar-fill full" id="barTotal"></div></div>
+          </div>
+          <div class="metric-card metric-forecast">
+            <div class="metric-icon-wrap forecast"><span class="metric-icon">&#10003;</span></div>
+            <div class="metric-body">
+              <span class="metric-label">Forecastable</span>
+              <span class="metric-value positive" id="sumForecast">1679</span>
+            </div>
+            <div class="metric-bar"><div class="metric-bar-fill" id="barForecast" style="background:linear-gradient(90deg,#10b981,#34d399)"></div></div>
+          </div>
+          <div class="metric-card metric-not-forecast">
+            <div class="metric-icon-wrap danger"><span class="metric-icon">&#10007;</span></div>
+            <div class="metric-body">
+              <span class="metric-label">Not Forecastable</span>
+              <span class="metric-value negative" id="sumNoForecast">282</span>
+            </div>
+            <div class="metric-bar"><div class="metric-bar-fill" id="barNoForecast" style="background:linear-gradient(90deg,#ef4444,#fb7185)"></div></div>
+          </div>
+          <div class="metric-card metric-active">
+            <div class="metric-icon-wrap info"><span class="metric-icon">&#9654;</span></div>
+            <div class="metric-body">
+              <span class="metric-label">ACT / END / NEW</span>
+              <div class="metric-trio">
+                <span class="trio-val blue" id="sumACT">1205</span>
+                <span class="trio-sep">/</span>
+                <span class="trio-val orange" id="sumEND">806</span>
+                <span class="trio-sep">/</span>
+                <span class="trio-val green" id="sumNEW">1</span>
+              </div>
+            </div>
+            <div class="metric-bar trio-bar">
+              <div class="metric-bar-fill" id="barACT" style="background:#3b82f6"></div>
+              <div class="metric-bar-fill" id="barEND" style="background:#ef4444"></div>
+              <div class="metric-bar-fill" id="barNEW" style="background:#8b5cf6"></div>
+            </div>
+          </div>
+          <div class="metric-card metric-volume">
+            <div class="metric-icon-wrap purple"><span class="metric-icon">&#9632;</span></div>
+            <div class="metric-body">
+              <span class="metric-label">T&#7893;ng s&#7843;n l&#432;&#7907;ng</span>
+              <span class="metric-value purple" id="sumVolume">79344445.15</span>
+            </div>
+            <div class="metric-bar"><div class="metric-bar-fill full" id="barVolume" style="background:linear-gradient(90deg,#8b5cf6,#a78bfa)"></div></div>
+          </div>
+        </div>
+
+        <!-- Row 2: Charts — Donut + Segment + Lifecycle -->
+        <div class="dash-charts">
+
+          <!-- Donut: Forecastability -->
+          <div class="chart-card chart-donut">
+            <div class="chart-card-head">
+              <span class="chart-card-title">Forecastability Ratio</span>
+              <span class="chart-card-badge positive" id="donutBadge">85,62%</span>
+            </div>
+            <div class="donut-layout">
+              <div class="donut-svg-wrap">
+                <svg class="dash-donut" viewBox="0 0 140 140" id="donutForecast">
+                  <circle cx="70" cy="70" r="54" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="16"/>
+                  <circle cx="70" cy="70" r="54" fill="none" stroke="url(#donutGrad)" stroke-width="16"
+                    stroke-dasharray="0 339.3" stroke-linecap="round"
+                    transform="rotate(-90 70 70)" id="donutArc" class="donut-arc"/>
+                  <defs>
+                    <linearGradient id="donutGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#10b981"/>
+                      <stop offset="100%" stop-color="#34d399"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="donut-center">
+                  <span class="donut-pct" id="donutPct">85,62%</span>
+                  <span class="donut-sub">forecast</span>
+                </div>
+              </div>
+              <div class="donut-legend">
+                <div class="donut-leg-item">
+                  <span class="leg-dot" style="background:#10b981"></span>
+                  <span class="leg-label">D&#7921; b&aacute;o &#273;&#432;&#7907;c</span>
+                  <span class="leg-value positive" id="donutYes">--</span>
+                </div>
+                <div class="donut-leg-item">
+                  <span class="leg-dot" style="background:#ef4444"></span>
+                  <span class="leg-label">Kh&ocirc;ng th&#7875;</span>
+                  <span class="leg-value negative" id="donutNo">--</span>
+                </div>
+                <div class="donut-leg-item">
+                  <span class="leg-dot" style="background:#f59e0b"></span>
+                  <span class="leg-label">Marginal</span>
+                  <span class="leg-value" id="donutMarginal">--</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Segment Distribution -->
+          <div class="chart-card chart-segments">
+            <div class="chart-card-head">
+              <span class="chart-card-title">Ph&acirc;n kh&uacute;c theo Volume</span>
+              <span class="chart-card-subtitle" id="segTotal">--</span>
+            </div>
+            <!-- Stacked bar at top -->
+            <div class="seg-stacked-bar" id="segStackedBar">
+              <!-- Populated by JS -->
+            </div>
+            <div class="seg-detail-list" id="segBars">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Alerts + Verdict donut -->
+        <div class="dash-row3">
+          <div class="alert-card alert-warning" id="alertInactive">
+            <div class="alert-icon-wrap warning">
+              <svg class="alert-ring" viewBox="0 0 60 60">
+                <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/>
+                <circle cx="30" cy="30" r="24" fill="none" stroke="#fbbf24" stroke-width="5"
+                  stroke-dasharray="0 150.8" stroke-linecap="round"
+                  transform="rotate(-90 30 30)" id="ringInactive" class="alert-ring-arc"/>
+              </svg>
+              <span class="alert-count" id="alertInactiveCount">--</span>
+            </div>
+            <div class="alert-body">
+              <div class="alert-title">&#9888; ACT + Inactive</div>
+              <div class="alert-desc">M&atilde; c&ograve;n ho&#7841;t &#273;&#7897;ng nh&#432;ng kh&ocirc;ng c&oacute; giao d&#7883;ch g&#7847;n &#273;&acirc;y</div>
+            </div>
+            <div class="alert-action">Xem &rarr;</div>
+          </div>
+          <div class="alert-card alert-danger" id="alertStillSelling">
+            <div class="alert-icon-wrap danger">
+              <svg class="alert-ring" viewBox="0 0 60 60">
+                <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/>
+                <circle cx="30" cy="30" r="24" fill="none" stroke="#f87171" stroke-width="5"
+                  stroke-dasharray="0 150.8" stroke-linecap="round"
+                  transform="rotate(-90 30 30)" id="ringStillSelling" class="alert-ring-arc"/>
+              </svg>
+              <span class="alert-count" id="alertStillSellingCount">--</span>
+            </div>
+            <div class="alert-body">
+              <div class="alert-title">&#9888; END + Still Selling</div>
+              <div class="alert-desc">M&atilde; &#273;&atilde; ng&#432;ng nh&#432;ng v&#7851;n c&oacute; giao d&#7883;ch xu&#7845;t kho</div>
+            </div>
+            <div class="alert-action">Xem &rarr;</div>
+          </div>
+
+          <!-- Verdict SVG Donut -->
+          <div class="chart-card chart-verdict-donut">
+            <div class="chart-card-head">
+              <span class="chart-card-title">Verdict</span>
+              <span class="chart-card-badge positive" id="verdictBadge">--</span>
+            </div>
+            <div class="donut-chart-layout" id="verdictDonut">
+              <!-- Populated by JS: SVG donut + legend -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 4: Activity donut + Status donut + Quality gauges -->
+        
+      </div>
+
+      <!-- Segment Explanation — always visible on dashboard -->
+      
+      <div class="segment-explain-panel" id="segExplainPanelDash" style="display:none"></div>
+
+    </div>
+
+    <!-- Tab: Detail (Chi tiết) -->
+    <div class="tab-content" id="tab-detail" style="display:none">
+      <div class="detail-header">
+        <h2>Chi ti&#7871;t SKU</h2>
+      </div>
+
+      <!-- Segment Explanation Toggle -->
+      <div class="segment-explain-toggle">
+        <button class="seg-explain-btn" id="segExplainBtn">
+          <span>&#9432; Gi&#7843;i th&iacute;ch ph&acirc;n kh&uacute;c</span>
+          <span class="seg-explain-arrow">&#9660;</span>
+        </button>
+      </div>
+      <div class="segment-explain-panel" id="segExplainPanel" style="display:none"></div>
+
+      <!-- Filters -->
+      <div class="filter-section" id="filterSection">
+        <div class="filter-row">
+          <span class="filter-label">Status:</span>
+          <div class="filter-pills" id="filterStatus">
+            <button class="pill active" data-value="">All</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Activity:</span>
+          <div class="filter-pills" id="filterActivity">
+            <button class="pill active" data-value="">All</button>
+            <button class="pill" data-value="ACT+Active">ACT+Active</button>
+            <button class="pill" data-value="ACT+Inactive">ACT+Inactive</button>
+            <button class="pill" data-value="END+StillSelling">END+StillSelling</button>
+            <button class="pill" data-value="END+Discontinued">END+Discontinued</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Lifecycle:</span>
+          <div class="filter-pills" id="filterLifecycle">
+            <button class="pill active" data-value="">All</button>
+            <button class="pill" data-value="Growing">Growing</button>
+            <button class="pill" data-value="Mature">Mature</button>
+            <button class="pill" data-value="Declining">Declining</button>
+            <button class="pill" data-value="Dead">Dead</button>
+            <button class="pill" data-value="New">New</button>
+          </div>
+          <span class="filter-label" style="margin-left:24px">Verdict:</span>
+          <div class="filter-pills" id="filterVerdict">
+            <button class="pill active" data-value="">All</button>
+            <button class="pill" data-value="Forecastable">Forecastable</button>
+            <button class="pill" data-value="Marginal">Marginal</button>
+            <button class="pill" data-value="Not_Forecastable">Not Forecastable</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Segment:</span>
+          <div class="filter-pills" id="filterSegment">
+            <button class="pill active" data-value="">All</button>
+          </div>
+          <span class="filter-label" style="margin-left:24px">Forecast:</span>
+          <div class="filter-pills" id="filterForecast">
+            <button class="pill active" data-value="">All</button>
+            <button class="pill" data-value="1">Yes</button>
+            <button class="pill" data-value="0">No</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Filter Chips -->
+      <div class="filter-chips" id="filterChips"></div>
+
+      <!-- Data Table -->
+      <div class="table-wrapper" id="tableWrapper">
+        <div class="table-loading" id="tableLoading">
+          <div class="spinner"></div>
+          <span>&#272;ang t&#7843;i d&#7919; li&#7879;u...</span>
+        </div>
+        <div class="table-scroll" id="tableScroll">
+          <table class="data-table" id="dataTable">
+            <thead id="dataTableHead"></thead>
+            <tbody id="dataTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination">
+        <div class="page-info" id="pageInfo">--</div>
+        <div class="page-controls">
+          <select id="perPageSelect" class="per-page-select">
+            <option value="25">25 / trang</option>
+            <option value="50">50 / trang</option>
+            <option value="100" selected>100 / trang</option>
+            <option value="9999">T&#7845;t c&#7843;</option>
+          </select>
+          <button class="page-btn" id="prevPage" disabled>&#9664; Tr&#432;&#7899;c</button>
+          <span class="page-num" id="pageNum">1</span>
+          <button class="page-btn" id="nextPage">Sau &#9654;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Similarity -->
+    <div class="tab-content" id="tab-similarity" style="display:none">
+      <div class="sim-header">
+        <h2>Nh&oacute;m t&#432;&#417;ng &#273;&#7891;ng</h2>
+        <div class="sim-controls">
+          <div class="sim-method-pills" id="simMethodPills">
+            <button class="pill active" data-method="">All</button>
+            <button class="pill" data-method="fsku">F_SKU</button>
+            <button class="pill" data-method="name_match">Name Match</button>
+            <button class="pill" data-method="temporal_succession">Temporal</button>
+            <button class="pill" data-method="volume_correlation">Correlation</button>
+          </div>
+          <div class="sim-search">
+            <input type="text" id="simSearch" placeholder="T&igrave;m nh&oacute;m...">
+          </div>
+        </div>
+      </div>
+      <div class="sim-counts" id="simCounts"></div>
+      <div class="sim-grid" id="simGrid"></div>
+      <div class="sim-pagination" id="simPagination">
+        <button class="page-btn" id="simPrevPage" disabled>&#9664; Tr&#432;&#7899;c</button>
+        <span class="page-num" id="simPageNum">1</span>
+        <button class="page-btn" id="simNextPage">Sau &#9654;</button>
+      </div>
+    </div>
+
+    <!-- Tab: Pulse Chart -->
+    <div class="tab-content" id="tab-pulse" style="display:none">
+      <!-- Sub-tab buttons -->
+      <div style="display:flex;gap:0;border-bottom:2px solid #2a2d35;margin-bottom:12px">
+        <button id="pulseSubChart" style="padding:8px 20px;background:none;border:none;border-bottom:2px solid #10b981;color:#10b981;font-weight:600;font-size:13px;cursor:pointer;margin-bottom:-2px">Pulse Chart</button>
+        <button id="pulseSubCompare" style="padding:8px 20px;background:none;border:none;border-bottom:2px solid transparent;color:#94a3b8;font-weight:500;font-size:13px;cursor:pointer;margin-bottom:-2px">So s&#225;nh: KH (MA3) vs SLG Forecast vs Actual</button>
+      </div>
+      <!-- Sub-panel: Pulse Chart (original) -->
+      <div id="pulsePanelChart">
+        <div class="pulse-layout">
+          <div class="pulse-sidebar">
+            <h3>Ch&#7885;n SKU (t&#7889;i &#273;a 8)</h3>
+            <div class="pulse-search-bar">
+              <input type="text" id="pulseSearch" placeholder="T&igrave;m SKU...">
+            </div>
+            <div class="pulse-seg-filter" id="pulseSegFilter">
+              <button class="pill small active" data-seg="">All</button>
+            </div>
+            <div class="pulse-sku-list" id="pulseSkuList"></div>
+            <div class="pulse-selected" id="pulseSelected">
+              <h4>&#272;&atilde; ch&#7885;n: <span id="pulseCount">0</span>/8</h4>
+              <div class="pulse-chips" id="pulseChips"></div>
+              <button class="btn-clear-pulse" id="pulseClear">X&oacute;a t&#7845;t c&#7843;</button>
+            </div>
+          </div>
+          <div class="pulse-chart-area">
+            <div class="pulse-chart-container" id="pulseChartContainer">
+              <div class="pulse-placeholder">Ch&#7885;n SKU t&#7915; danh s&aacute;ch b&ecirc;n tr&aacute;i &#273;&#7875; xem bi&#7875;u &#273;&#7891;</div>
+            </div>
+            <div class="pulse-legend" id="pulseLegend"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Sub-panel: So sánh Pulse -->
+      <div id="pulsePanelCompare" style="display:none">
+        <div id="pulseCompareLoading" style="padding:40px;text-align:center">
+          <div class="spinner" style="margin:0 auto 10px"></div>
+          <span style="color:#bbb;font-size:13px">&#272;ang t&#7843;i d&#7919; li&#7879;u so s&#225;nh...</span>
+        </div>
+        <div id="pulseCompareError" style="display:none"></div>
+        <div id="pulseCompareDashboard" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Forecast Overview -->
+    <div class="tab-content" id="tab-forecast" style="display:none">
+      <div class="forecast-loading" id="forecastLoading" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:60px">
+          <div class="spinner"></div>
+          <span style="color:var(--text-2)">&#272;ang t&#7843;i d&#7919; li&#7879;u forecast...</span>
+        </div>
+      </div>
+
+      <!-- Section A: Visual Dashboard (compact) -->
+      <div class="forecast-content" id="forecastContent"></div>
+
+      <!-- Section B: SKU Forecast Table -->
+      <div class="fc-table-section" id="fcTableSection">
+        <div class="fc-table-header">
+          <h3 class="fc-table-title">SKU Forecast Detail</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="pill" id="btnExportExcel" style="background:#10b981;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;border:none;white-space:nowrap" title="T&#7843;i Excel">&#128229; T&#7843;i Excel</button>
+            <button class="pill" id="btnImportCompare" style="background:#3b82f6;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;border:none;white-space:nowrap" title="Import &amp; So s&aacute;nh">&#128202; So s&aacute;nh Accuracy</button>
+            <div class="fc-search-bar">
+              <span class="search-icon">&#128269;</span>
+              <input type="text" id="fcSearch" placeholder="T&igrave;m m&atilde; SKU..." autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <div class="fc-filter-row">
+          <span class="filter-label">Segment:</span>
+          <div class="filter-pills" id="fcFilterSegment">
+            <button class="pill active" data-value="">All</button>
+            <button class="pill" data-value="A_forecastable">A</button>
+            <button class="pill" data-value="B_intermittent">B</button>
+            <button class="pill" data-value="C_ultra_sparse">C</button>
+          </div>
+          <span class="filter-label" style="margin-left:20px">Accuracy:</span>
+          <div class="filter-pills" id="fcFilterTier">
+            <button class="pill active" data-value="">All</button>
+            <button class="pill" data-value="high">High</button>
+            <button class="pill" data-value="medium">Medium</button>
+            <button class="pill" data-value="low">Low</button>
+            <button class="pill" data-value="poor">Poor</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <div class="table-loading" id="fcTableLoading" style="display:none">
+            <div class="spinner"></div>
+            <span>&#272;ang t&#7843;i...</span>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table" id="fcTable">
+              <thead id="fcTableHead"></thead>
+              <tbody id="fcTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="pagination" id="fcPagination">
+          <div class="page-info" id="fcPageInfo">--</div>
+          <div class="page-controls">
+            <select id="fcPerPage" class="per-page-select">
+              <option value="25">25 / trang</option>
+              <option value="50" selected>50 / trang</option>
+              <option value="100">100 / trang</option>
+            </select>
+            <button class="page-btn" id="fcPrevPage" disabled>&#9664; Tr&#432;&#7899;c</button>
+            <span class="page-num" id="fcPageNum">1</span>
+            <button class="page-btn" id="fcNextPage">Sau &#9654;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Accuracy (V7 per-month + upload custom) -->
+    <div class="tab-content" id="tab-accuracy" style="display:none">
+      <!-- Sub-tabs: V7 auto | Upload custom -->
+      <div style="display:flex;gap:0;margin-bottom:12px;border-bottom:1px solid #2a2d35">
+        <button class="acc-sub-tab active" id="accSubV7" style="padding:10px 20px;background:transparent;color:#10b981;border:none;border-bottom:2px solid #10b981;font-size:13px;font-weight:600;cursor:pointer">Model Accuracy</button>
+        <button class="acc-sub-tab" id="accSubUpload" style="padding:10px 20px;background:transparent;color:#94a3b8;border:none;border-bottom:2px solid transparent;font-size:13px;font-weight:500;cursor:pointer">Upload so s&#225;nh</button>
+      </div>
+      <!-- V7 auto-load panel -->
+      <div id="accPanelV7">
+        <div id="accV7Loading" style="padding:40px;text-align:center">
+          <div class="spinner" style="margin:0 auto 10px"></div>
+          <span style="color:var(--text-2,#bbb);font-size:13px">&#272;ang t&#7843;i d&#7919; li&#7879;u accuracy...</span>
+        </div>
+        <div id="accV7Error" style="display:none;padding:20px;text-align:center"></div>
+        <div id="accV7Dashboard" style="display:none"></div>
+      </div>
+      <!-- Upload panel (hidden by default) -->
+      <div id="accPanelUpload" style="display:none">
+        <div id="accUploadSection">
+          <div style="max-width:500px;margin:20px auto 0">
+            <h2 style="color:#fff;font-size:18px;margin:0 0 6px;text-align:center">&#272;&#225;nh gi&#225; accuracy t&#249;y ch&#7881;nh</h2>
+            <p style="color:#888;font-size:12px;margin:0 0 20px;text-align:center">Upload file actual &#273;&#7875; so s&#225;nh v&#7899;i forecast c&#7911;a ch&#250;ng t&#244;i</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+              <a href="/api/forecast_template" download="UNIS_Compare_Template.xlsx" style="display:inline-block;background:#1e293b;color:#60a5fa;border:1px solid #334155;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none">&#8681; T&#7843;i m&#7851;u Excel</a>
+              <span style="color:#666;font-size:11px">File m&#7851;u c&#243; s&#7861;n F_SKU + c&#7897;t th&#225;ng &#273;&#7875; nh&#7853;p actual</span>
+            </div>
+            <div id="accUploadZone" style="border:2px dashed #333;border-radius:10px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s;background:#161820">
+              <div style="font-size:28px;margin-bottom:4px">&#128196;</div>
+              <p style="color:var(--text-2,#bbb);margin:0 0 4px;font-size:13px">K&#233;o th&#7843; file ho&#7863;c <span style="color:#3b82f6;text-decoration:underline">ch&#7885;n file</span></p>
+              <p style="color:#666;font-size:11px;margin:0">.csv, .xlsx &#8226; C&#7897;t: SKU + th&#225;ng (2025-08, Aug-2025, ...)</p>
+              <input type="file" id="accFileInput" accept=".csv,.xlsx,.xls" style="display:none">
+            </div>
+            <div id="accLoading" style="display:none;padding:24px;text-align:center">
+              <div class="spinner" style="margin:0 auto 10px"></div>
+              <span style="color:var(--text-2,#bbb);font-size:13px">&#272;ang ph&#226;n t&#237;ch...</span>
+            </div>
+            <div id="accError" style="display:none;margin-top:10px"></div>
+          </div>
+        </div>
+        <div id="accDashboard" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Smart Improvements -->
+    <div class="tab-content" id="tab-smart" style="display:none">
+      <div id="smartLoading" style="padding:40px;text-align:center">
+        <div class="spinner" style="margin:0 auto 10px"></div>
+        <span style="color:var(--text-2,#bbb);font-size:13px">Loading Smart Improvements...</span>
+      </div>
+      <div id="smartDashboard" style="display:none"></div>
+    </div>
+
+  <!-- Command Palette -->
+  <div class="cmd-palette-overlay" id="cmdOverlay" style="display:none">
+    <div class="cmd-palette">
+      <div class="cmd-search">
+        <span class="cmd-icon">&#128269;</span>
+        <input type="text" id="cmdInput" placeholder="T&igrave;m SKU, &#273;i&#7873;u h&#432;&#7899;ng, l&#7879;nh...">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="cmd-results" id="cmdResults">
+        <div class="cmd-group">
+          <div class="cmd-group-title">&#272;i&#7873;u h&#432;&#7899;ng</div>
+          <div class="cmd-item" data-action="tab:sku-list">&#128202; Dashboard</div>
+          <div class="cmd-item" data-action="tab:detail">&#128203; Chi ti&#7871;t</div>
+          <div class="cmd-item" data-action="tab:similarity">&#128279; Similarity</div>
+          <div class="cmd-item" data-action="tab:pulse">&#128200; Pulse Chart</div>
+          <div class="cmd-item" data-action="tab:forecast">&#128640; Forecast Overview</div>
+          <div class="cmd-item" data-action="export">&#8681; Export CSV</div>
+        </div>
+        <div class="cmd-group" id="cmdSkuResults" style="display:none">
+          <div class="cmd-group-title">SKU</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Ticker — WhiteRock-style -->
+  <div class="bottom-ticker" id="bottomTicker" style="display:none">
+    <div class="ticker-status">
+      <span class="ticker-dot"></span>
+      <span class="ticker-status-text">Live</span>
+    </div>
+    <div class="ticker-scroll" id="tickerScroll">
+      <!-- Populated by JS -->
+    </div>
+    <div class="ticker-copyright" id="tickerTime">--</div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Guide Overlay -->
+  <div class="guide-overlay" id="guideOverlay">
+    <div class="guide-spotlight" id="guideSpotlight"></div>
+  </div>
+
+  <!-- Guide Panel -->
+  <div class="guide-panel" id="guidePanel">
+    <div class="guide-panel-header">
+      <div class="guide-panel-title" id="guidePanelTitle">H&#432;&#7899;ng d&#7851;n</div>
+      <button class="guide-panel-close" id="guidePanelClose">&times;</button>
+    </div>
+    <div class="guide-panel-tabs">
+      <button class="guide-ptab active" data-gtab="steps" id="guideTabSteps">B&#432;&#7899;c</button>
+      <button class="guide-ptab" data-gtab="glossary" id="guideTabGlossary">Thu&#7853;t ng&#7919;</button>
+    </div>
+    <div class="guide-panel-body" id="guidePanelBody">
+      <!-- Steps content rendered by JS -->
+    </div>
+    <div class="guide-panel-footer" id="guidePanelFooter">
+      <button class="guide-nav-btn" id="guidePrev">&#8592; Tr&#432;&#7899;c</button>
+      <span class="guide-step-indicator" id="guideStepIndicator">1 / 5</span>
+      <button class="guide-nav-btn" id="guideNext">Sau &#8594;</button>
+    </div>
+  </div>
+
+  <!-- Compare Modal -->
+  <div id="compareModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;backdrop-filter:blur(6px)">
+    <div style="background:#1e2028;border:1px solid #333;border-radius:16px;padding:32px;max-width:700px;width:92%;max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.7)">
+      <button id="compareModalClose" style="position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text-2,#aaa);font-size:24px;cursor:pointer">&times;</button>
+      <h2 style="margin:0 0 8px;color:var(--text-1,#fff);font-size:20px">&#128202; So s&aacute;nh Forecast vs Actual</h2>
+      <p style="color:var(--text-3,#888);font-size:13px;margin:0 0 16px">Upload file d&#7919; li&#7879;u th&#7921;c t&#7871; (.csv ho&#7863;c .xlsx) &#273;&#7875; so s&aacute;nh v&#7899;i forecast</p>
+
+      <!-- Step 1: Download template -->
+      <div style="background:#161820;border:1px solid #2a2d35;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:16px">
+        <div style="flex:1">
+          <div style="color:#fff;font-size:14px;font-weight:600;margin-bottom:4px">B&#432;&#7899;c 1: T&#7843;i file m&#7851;u</div>
+          <div style="color:#888;font-size:12px">File Excel c&#243; s&#7861;n danh s&#225;ch SKU + 8 c&#7897;t th&#225;ng (Aug 2025 &#8211; Mar 2026). Ch&#7881; c&#7847;n &#273;i&#7873;n s&#7889; actual v&#224;o.</div>
+        </div>
+        <button onclick="(async()=>{try{const r=await fetch('/api/forecast_template');if(!r.ok)throw new Error('Lỗi '+r.status);const b=await r.blob();const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='UNIS_Compare_Template.xlsx';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}catch(e){alert('Không tải được: '+e.message)}})()" style="background:#3b82f6;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">&#8681; Tải mẫu Excel</button>
+      </div>
+
+      <!-- Step 2: Upload zone -->
+      <div style="color:#fff;font-size:14px;font-weight:600;margin-bottom:8px">B&#432;&#7899;c 2: Upload file &#273;&#227; &#273;i&#7873;n</div>
+      <div id="compareUploadZone" style="border:2px dashed var(--border,#333);border-radius:12px;padding:40px 20px;text-align:center;cursor:pointer;transition:border-color 0.2s;margin-bottom:16px">
+        <div style="font-size:40px;margin-bottom:8px">&#128196;</div>
+        <p style="color:var(--text-2,#bbb);margin:0 0 8px">K&eacute;o th&#7843; file v&agrave;o &#273;&acirc;y ho&#7863;c <span style="color:#3b82f6;text-decoration:underline">ch&#7885;n file</span></p>
+        <p style="color:var(--text-3,#666);font-size:12px;margin:0">H&#7895; tr&#7907;: .csv, .xlsx &bull; C&#7897;t c&#7847;n: SKU + c&aacute;c c&#7897;t th&aacute;ng (2025-08, Jan-2026, ...)</p>
+        <input type="file" id="compareFileInput" accept=".csv,.xlsx,.xls" style="display:none">
+      </div>
+
+      <!-- Format hint -->
+      <details style="margin-bottom:16px;color:var(--text-3,#888);font-size:12px">
+        <summary style="cursor:pointer;color:var(--text-2,#bbb)">&#128161; H&#432;&#7899;ng d&#7851;n &#273;&#7883;nh d&#7841;ng file</summary>
+        <div style="margin-top:8px;padding:12px;background:var(--bg-2,#161820);border-radius:8px;font-family:monospace;font-size:11px;line-height:1.6">
+          <strong>C&aacute;ch 1 — Wide format (khuy&ecirc;n d&ugrave;ng):</strong><br>
+          sku, 2025-08, 2025-09, ..., 2026-03<br>
+          38.L1.5050.SVKAI506.10, 15000, 14500, ..., 13000<br><br>
+          <strong>C&aacute;ch 2 — Long format:</strong><br>
+          sku, year_month, actual_qty<br>
+          38.L1.5050.SVKAI506.10, 2025-08, 15000<br><br>
+          <strong>T&ecirc;n c&#7897;t th&aacute;ng ch&#7845;p nh&#7853;n:</strong> 2025-08, Aug-2025, Thg 8
+        </div>
+      </details>
+
+      <!-- Loading -->
+      <div id="compareLoading" style="display:none;text-align:center;padding:20px">
+        <div class="spinner" style="margin:0 auto 12px"></div>
+        <span style="color:var(--text-2,#bbb)">&#272;ang ph&acirc;n t&iacute;ch...</span>
+      </div>
+
+      <!-- Results -->
+      <div id="compareResults" style="display:none"></div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
