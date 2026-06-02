@@ -327,18 +327,42 @@ for idx, sku in enumerate(groups):
     # ÁP DỤNG TRỌNG SỐ VÀO KẾT QUẢ DỰ BÁO CỐT LÕI
     # ==========================================================================
     # Nhân dự báo nền với trọng số lịch sử, nếu số âm thì lấy 0
-    final_jan = max(0, q1_fcst[0] * w_jan)
-    final_feb = max(0, q1_fcst[1] * w_feb)
-    final_mar = max(0, q1_fcst[2] * w_mar)
+    import math
+    # 1. Nhân dự báo nền với trọng số lịch sử Tết
+    adj_jan = q1_fcst[0] * w_jan
+    adj_feb = q1_fcst[1] * w_feb
+    adj_mar = q1_fcst[2] * w_mar
+
+    # 2. Quy tắc 1: Kiểm tra xem sản phẩm đã bị "ngừng sản xuất" chưa (6 tháng cuối = 0)
+    is_dead = (np.sum(qty_full[-6:]) == 0)
+
+    if not is_dead:
+        # 3. Quy tắc 2: Tính giá trị tồn kho đệm tối thiểu (10% trung bình các tháng CÓ bán)
+        non_zero_history = qty_full[qty_full > 0]
+        min_buffer = np.mean(non_zero_history) * 0.1 if len(non_zero_history) > 0 else 0
+
+        # Nếu kết quả bị ép về số quá nhỏ hoặc bằng 0, đẩy nó lên bằng ngưỡng Minimum Buffer
+        adj_jan = max(min_buffer, adj_jan)
+        adj_feb = max(min_buffer, adj_feb)
+        adj_mar = max(min_buffer, adj_mar)
+
+    else:
+        # Nếu đã dừng bán thật sự (6 tháng không bán), giữ nguyên số 0
+        pass
+
+    # 4. Quy tắc 3: Làm tròn lên (Ceiling) - Có cầu dù nhỏ nhất cũng phải trữ 1 đơn vị
+    final_jan = math.ceil(adj_jan) if adj_jan > 0 else 0
+    final_feb = math.ceil(adj_feb) if adj_feb > 0 else 0
+    final_mar = math.ceil(adj_mar) if adj_mar > 0 else 0
 
     # Ghi nhận kết quả
     results.append({
         'Phân khúc': segment, 'Mã Sản Phẩm': sku, 'Mô Hình Tối Ưu': best_model,
         'Val_sMAPE (%)': round(scores[best_model]['sMAPE'], 2),
         'Val_RMSE': round(scores[best_model]['RMSE'], 2),
-        'Dự báo T1/2026 (Áp dụng tính mùa vụ)': round(final_jan, 0),
-        'Dự báo T2/2026 (Áp dụng tính mùa vụ)': round(final_feb, 0),
-        'Dự báo T3/2026 (Áp dụng tính mùa vụ)': round(final_mar, 0)
+        'Dự báo T1/2026': final_jan,
+        'Dự báo T2/2026': final_feb,
+        'Dự báo T3/2026': final_mar
     })
 
 # Đóng PDF
