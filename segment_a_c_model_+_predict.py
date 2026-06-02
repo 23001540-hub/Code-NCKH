@@ -14,6 +14,8 @@ Original file is located at
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import tensorflow as tf
+import random
 from matplotlib.backends.backend_pdf import PdfPages
 import warnings
 import logging
@@ -59,7 +61,9 @@ def croston_method(ts, extra_periods=3, alpha=0.1):
     forecast = a[-1] / p[-1] if p[-1] > 0 else 0
     return [max(0, forecast)] * extra_periods
 
-def run_lstm(train_ts, steps=3, is_full=False):
+def run_lstm(train_ts, steps=3, is_full=False, n_runs=5):
+    # ĐƯỢC SỬA ĐỔI SO VỚI CODE CŨ: CHẠY LẶP 5 LẦN VỚI HỆ SỐ RANDOM KHÁC NHAU
+    # LẤY TRUNG BÌNH 5 LẦN LẶP ĐÓ THAY VÌ 1 LẦN NHƯ TRƯỚC (ĐẢM BẢO TÍNH ĐÚNG ĐẮN)
     if len(train_ts) < 12: raise ValueError("Data too short")
     scaler = MinMaxScaler()
     scaled = scaler.fit_transform(np.array(train_ts).reshape(-1, 1))
@@ -68,17 +72,31 @@ def run_lstm(train_ts, steps=3, is_full=False):
         X.append(scaled[i:i+3, 0])
         y.append(scaled[i+3, 0])
     X, y = np.array(X).reshape(-1, 3, 1), np.array(y)
-    model = Sequential([LSTM(32, activation='relu', input_shape=(3, 1)), Dense(1)])
-    model.compile(optimizer='adam', loss='mse')
-    model.fit(X, y, epochs=40, verbose=0)
 
-    preds = []
-    curr_seq = scaled[-3:].reshape(1, 3, 1)
-    for _ in range(steps):
-        p = model.predict(curr_seq, verbose=0)[0,0]
-        preds.append(p)
-        curr_seq = np.append(curr_seq[:, 1:, :], [[[p]]], axis=1)
-    return [max(0, x) for x in scaler.inverse_transform(np.array(preds).reshape(-1, 1)).flatten()]
+    seeds = [42, 123, 2024, 777, 999]
+    all_runs_preds = []
+
+    for seed in seeds[:n_runs]:
+        # Reset hạt giống
+        np.random.seed(seed)
+        tf.random.set_seed(seed)
+
+        model = Sequential([LSTM(32, activation='relu', input_shape=(3, 1)), Dense(1)])
+        model.compile(optimizer='adam', loss='mse')
+        model.fit(X, y, epochs=40, verbose=0)
+
+        preds = []
+        curr_seq = scaled[-3:].reshape(1, 3, 1)
+        for _ in range(steps):
+            p = model.predict(curr_seq, verbose=0)[0,0]
+            preds.append(p)
+            curr_seq = np.append(curr_seq[:, 1:, :], [[[p]]], axis=1)
+
+        inv_preds = scaler.inverse_transform(np.array(preds).reshape(-1, 1)).flatten()
+        all_runs_preds.append(inv_preds)
+
+    final_avg_preds = np.mean(all_runs_preds, axis=0)
+    return [max(0, x) for x in final_avg_preds]
 
 # ==============================================================================
 # BƯỚC 1: ĐỌC VÀ TIỀN XỬ LÝ DỮ LIỆU
@@ -96,13 +114,17 @@ future_dates = pd.date_range(start='2026-01-01', end='2026-03-01', freq='MS')
 groups = df_ac['group_name'].unique()
 results = []
 characteristics = []
+weights_list = []  #Danh sách lưu trữ Trọng số
 
 # Chuẩn bị file PDF xuất ảnh
 pdf_A = PdfPages('BieuDo_ThiDau_Nhom_A.pdf')
 pdf_C = PdfPages('BieuDo_ThiDau_Nhom_C.pdf')
 
-print(f"Đã đọc tệp dữ liệu với {len(groups)} mã F_SKU...")
+print(f"Đã đọc tệp dữ liệu với {len(groups)} mã F_SKU. Bắt đầu tính toán trọng số & thi đấu")
 
+# ==============================================================================
+# BƯỚC 2 & 3: HUẤN LUYỆN, KIỂM THỬ VÀ CHỌN MÔ HÌNH TỐI ƯU
+# ==============================================================================
 for idx, sku in enumerate(groups):
     df_g = df_ac[df_ac['group_name'] == sku]
     segment = df_g['segment'].iloc[0]
@@ -111,6 +133,30 @@ for idx, sku in enumerate(groups):
     # Reindex lấp đầy các tháng khuyết bằng 0
     df_g = df_g.groupby('year_month')['qty'].sum().reindex(all_dates, fill_value=0).reset_index()
     qty_full = df_g['qty'].values
+
+    # ==========================================================================
+    # TÍNH TOÁN TRỌNG SỐ MÙA VỤ DỰA TRÊN LỊCH SỬ 3 NĂM (2023, 2024, 2025)
+    # ==========================================================================
+    df_g['month'] = df_g['year_month'].dt.month
+    avg_overall = df_g['qty'].mean() # Trung bình toàn bộ vòng đời sản phẩm
+
+    # Nếu có phát sinh sản lượng, tính tỷ lệ của tháng đó so với trung bình chung
+    if avg_overall > 0:
+        w_jan = df_g[df_g['month'] == 1]['qty'].mean() / avg_overall
+        w_feb = df_g[df_g['month'] == 2]['qty'].mean() / avg_overall
+        w_mar = df_g[df_g['month'] == 3]['qty'].mean() / avg_overall
+    else:
+        w_jan, w_feb, w_mar = 1.0, 1.0, 1.0
+
+    # Lưu lại trọng số vào list để xuất ra file CSV riêng
+    weights_list.append({
+        'Mã Sản Phẩm': sku,
+        'Phân khúc': segment,
+        'Trọng số tháng 1': round(w_jan, 4),
+        'Trọng số tháng 2': round(w_feb, 4),
+        'Trọng số tháng 3': round(w_mar, 4)
+    })
+    # ==========================================================================
 
     # Tính đặc trưng chuỗi thời gian
     non_zero = qty_full[qty_full > 0]
@@ -145,7 +191,7 @@ for idx, sku in enumerate(groups):
         evaluate('Croston', croston_method(t_qty, 3))
 
     else:
-        # NHÓM A (ML & Stats Models) - Đã bỏ MA3, SARIMA, LightGBM, CatBoost
+        # NHÓM A (ML & Stats Models)
 
         # 1. Prophet
         try:
@@ -162,29 +208,31 @@ for idx, sku in enumerate(groups):
         try: evaluate('LSTM', run_lstm(t_qty, 3))
         except: pass
 
-        # 4. Tree-based Models (Chỉ giữ lại XGBoost)
-        df_ml = pd.DataFrame({'qty': t_qty, 'Month': all_dates[:-3].month})
-        for i in [1,2,3]: df_ml[f'Lag_{i}'] = df_ml['qty'].shift(i)
-        df_ml = df_ml.dropna()
-        if len(df_ml) > 0:
-            features = ['Lag_1', 'Lag_2', 'Lag_3', 'Month']
-            X_tr, y_tr = df_ml[features], df_ml['qty']
-
-            try:
-                m_xgb = xgb.XGBRegressor(n_estimators=30, random_state=42).fit(X_tr, y_tr)
+        # 4. Tree-based Models (XGBoost)
+        # CŨNG NHƯ LSTM, CHỌN RA 5 SEED RIÊNG BIỆT ĐỂ ĐẢM BẢO TÍNH ĐÚNG ĐẮN
+        try:
+            seeds = [42, 123, 2024, 777, 999]
+            all_xgb_preds = []
+            for seed in seeds:
+                # Thêm subsample=0.8 để kích hoạt tính ngẫu nhiên của Seed
+                m_xgb = xgb.XGBRegressor(n_estimators=30, random_state=seed, subsample=0.8).fit(X_tr, y_tr)
                 p_xgb, hx = [], list(t_qty)
                 for m in [7, 8, 9]:
                     p = m_xgb.predict(pd.DataFrame([[hx[-1], hx[-2], hx[-3], m]], columns=features))[0]
                     p_xgb.append(p); hx.append(p)
-                evaluate('XGBoost', p_xgb)
-            except: pass
+                all_xgb_preds.append(p_xgb)
 
-        # 5. Ensemble (Top 3 theo sMAPE)
+            # Lấy trung bình cộng 5 lần thi đấu
+            final_xgb_preds = np.mean(all_xgb_preds, axis=0)
+            evaluate('XGBoost', final_xgb_preds)
+        except: pass
+
+        # 5. Ensemble
         if len(scores) >= 3:
             top_3 = sorted(scores.keys(), key=lambda x: scores[x]['sMAPE'])[:3]
             evaluate('Ensemble', np.mean([val_preds[m] for m in top_3], axis=0))
 
-    if not scores: continue # Bỏ qua nếu lỗi
+    if not scores: continue
 
     # CHỐT NHÀ VÔ ĐỊCH DỰA TRÊN sMAPE
     best_model = min(scores, key=lambda k: scores[k]['sMAPE'])
@@ -195,14 +243,12 @@ for idx, sku in enumerate(groups):
     x = np.arange(len(models))
     width = 0.35
 
-    # Biểu đồ 1: sMAPE & MAPE
     axes[0].bar(x - width/2, [scores[m]['MAPE'] for m in models], width, label='MAPE (%)', color='#1f77b4')
     axes[0].bar(x + width/2, [scores[m]['sMAPE'] for m in models], width, label='sMAPE (%)', color='#2ca02c')
     axes[0].set_title(f'Sai số Tương đối - Mã: {sku}\n(Vô địch: {best_model})', fontweight='bold')
     axes[0].set_xticks(x); axes[0].set_xticklabels(models, rotation=20, ha='right')
     axes[0].legend()
 
-    # Biểu đồ 2: RMSE & MAE
     axes[1].bar(x - width/2, [scores[m]['RMSE'] for m in models], width, label='RMSE', color='#ff7f0e')
     axes[1].bar(x + width/2, [scores[m]['MAE'] for m in models], width, label='MAE', color='#d62728')
     axes[1].set_title('Sai số Tuyệt đối (Số lượng viên)', fontweight='bold')
@@ -218,77 +264,81 @@ for idx, sku in enumerate(groups):
     q1_fcst = [0, 0, 0]
 
     try:
-        # 1. Các mô hình Nhóm C
         if best_model == 'Naive':
             q1_fcst = [qty_full[-1]] * 3
+
         elif best_model == 'MA3':
             q1_fcst = [np.mean(qty_full[-3:])] * 3
+
         elif best_model == 'MA6':
             q1_fcst = [np.mean(qty_full[-6:])] * 3
+
         elif best_model == 'Croston':
             full_preds = croston_method(qty_full, extra_periods=6)
-            q1_fcst = full_preds[3:6] # Lấy bước 4, 5, 6
+            q1_fcst = full_preds[3:6]
 
-        # 2. Prophet
         elif best_model == 'Prophet':
             df_pro_full = pd.DataFrame({'ds': all_dates, 'y': qty_full})
             m_f = Prophet(weekly_seasonality=False, daily_seasonality=False).fit(df_pro_full)
             full_preds = m_f.predict(m_f.make_future_dataframe(periods=6, freq='MS'))['yhat'].values
             q1_fcst = [max(0, p) for p in full_preds[-3:]]
 
-        # 3. ARIMA
         elif best_model == 'ARIMA':
             m_f = pm.auto_arima(qty_full, seasonal=False, suppress_warnings=True, error_action="ignore")
             full_preds = m_f.predict(n_periods=6)
             q1_fcst = [max(0, p) for p in full_preds[-3:]]
 
-        # 4. LSTM
         elif best_model == 'LSTM':
             full_preds = run_lstm(qty_full, steps=6)
             q1_fcst = full_preds[3:6]
 
-        # 5. Tree-based Models (XGBoost)
         elif best_model == 'XGBoost':
             df_full_ml = pd.DataFrame({'qty': qty_full, 'Month': all_dates.month})
             for i in [1,2,3]: df_full_ml[f'Lag_{i}'] = df_full_ml['qty'].shift(i)
             df_full_ml = df_full_ml.dropna()
-
             features = ['Lag_1', 'Lag_2', 'Lag_3', 'Month']
             X_full, y_full = df_full_ml[features], df_full_ml['qty']
 
-            m_f = xgb.XGBRegressor(n_estimators=30, random_state=42).fit(X_full, y_full)
+            seeds = [42, 123, 2024, 777, 999]
+            all_xgb_full_preds = []
 
-            hx = list(qty_full)
-            future_months = [10, 11, 12, 1, 2, 3]
-            full_preds = []
-            for m in future_months:
-                p = m_f.predict(pd.DataFrame([[hx[-1], hx[-2], hx[-3], m]], columns=features))[0]
-                full_preds.append(max(0, p))
-                hx.append(max(0, p))
+            for seed in seeds:
+                m_f = xgb.XGBRegressor(n_estimators=30, random_state=seed, subsample=0.8).fit(X_full, y_full)
+                hx = list(qty_full)
+                future_months = [10, 11, 12, 1, 2, 3]
+                full_preds = []
+                for m in future_months:
+                    p = m_f.predict(pd.DataFrame([[hx[-1], hx[-2], hx[-3], m]], columns=features))[0]
+                    full_preds.append(max(0, p))
+                    hx.append(max(0, p))
+                # Cắt lấy 3 tháng Q1/2026 của vòng lặp này
+                all_xgb_full_preds.append(full_preds[3:6])
 
-            q1_fcst = full_preds[3:6]
+            # Trung bình cộng Q1/2026 của cả 5 vòng lặp
+            q1_fcst = np.mean(all_xgb_full_preds, axis=0).tolist()
 
-        # 6. Ensemble
         elif best_model == 'Ensemble':
-            # Fast mock cho bước dự báo toàn dữ liệu tương lai để tránh train lại 3 model
             q1_fcst = [np.mean(qty_full[-3:])] * 3
 
     except Exception as e:
         pass
+
+    # ==========================================================================
+    # ÁP DỤNG TRỌNG SỐ VÀO KẾT QUẢ DỰ BÁO CỐT LÕI
+    # ==========================================================================
+    # Nhân dự báo nền với trọng số lịch sử, nếu số âm thì lấy 0
+    final_jan = max(0, q1_fcst[0] * w_jan)
+    final_feb = max(0, q1_fcst[1] * w_feb)
+    final_mar = max(0, q1_fcst[2] * w_mar)
 
     # Ghi nhận kết quả
     results.append({
         'Phân khúc': segment, 'Mã Sản Phẩm': sku, 'Mô Hình Tối Ưu': best_model,
         'Val_sMAPE (%)': round(scores[best_model]['sMAPE'], 2),
         'Val_RMSE': round(scores[best_model]['RMSE'], 2),
-        'Dự báo T1/2026': round(q1_fcst[0], 0),
-        'Dự báo T2/2026': round(q1_fcst[1], 0),
-        'Dự báo T3/2026': round(q1_fcst[2], 0)
-    })
-
-    characteristics.append({
-        'Phân khúc': segment, 'Mô Hình Tối Ưu': best_model,
-        'ADI': adi, 'CV2': cv2, 'Sparsity (%)': sparsity, 'Trend': trend
+        'Dự báo T1/2026 (Áp dụng tính mùa vụ)': round(final_jan, 0),
+        'Dự báo T2/2026 (Áp dụng tính mùa vụ)': round(final_feb, 0),
+        'Dự báo T3/2026 (Áp dụng tính mùa vụ)': round(final_mar, 0)
     })
 
 # Đóng PDF
@@ -296,6 +346,7 @@ pdf_A.close()
 pdf_C.close()
 
 # Xuất CSV
-pd.DataFrame(results).to_csv('Du_Bao_Q1_2026_Toan_Dien.csv', index=False, encoding='utf-8-sig')
+pd.DataFrame(weights_list).to_csv('Trong_So_Mua_Vu_Tung_Nhom.csv', index=False, encoding='utf-8-sig')
+pd.DataFrame(results).to_csv('Du_Bao_Q1_2026.csv', index=False, encoding='utf-8-sig')
 
-print("Đã hoàn tất thi đấu! Xuất file CSV và PDF thành công.")
+print("✅ Đã hoàn tất thi đấu và hiệu chỉnh Mùa vụ Tết. Các file kết quả đã sẵn sàng!")
