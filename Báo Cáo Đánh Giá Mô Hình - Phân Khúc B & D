@@ -1,0 +1,18 @@
+# Báo Cáo Đánh Giá Mô Hình - Phân Khúc B & D
+
+Dưới đây là kết quả chạy Backtesting và so sánh sai số (MAE, RMSE, MAPE) để chọn ra thuật toán dự báo (Champion Model) cho Phân khúc B và D.
+
+## 📊 1. Bảng So Sánh Chỉ Số Lỗi (Metrics)
+
+| Phân khúc | Thuật toán | Số lượng mã chọn | Tỷ lệ (%) | MAE (Trung bình) | RMSE (Trung bình) | MAPE (%) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **B (233 mã)** | **Naive 🏆** | **132** | **56.7%** | **2,382.1** | **2,702.7** | **336.9%** |
+| *(Biến động)* | MA3 | 65 | 27.9% | 3,227.9 | 3,517.5 | 605.6% |
+| | Croston | 36 | 15.4% | 5,433.6 | 5,731.0 | 4,342.2% |
+| **D (65 mã)** | **Naive 🏆** | **63** | **96.9%** | **343.9** | **461.8** | **32.3%** |
+| *(Bán chậm)* | MA3 | 2 | 3.1% | 341.1 | 459.0 | 35.4% |
+| | Croston | 0 | 0.0% | 2,005.1 | 2,122.9 | 122.2% |
+
+## 🧠 2. Kết Luận
+* **Phân khúc B:** Thuật toán **Naive** chiến thắng áp đảo. Chuỗi dữ liệu biến động ngắn hạn rất mạnh, việc lấy số bán của tháng gần nhất làm mốc dự báo cho sai số thấp nhất.
+* **Phân khúc D (Cold Start):** Thuật toán **Naive** tối ưu nhất cho hàng mới/bán chậm. Bám sát thực tế để mua hàng thăm dò, giữ mức lỗi MAPE cực thấp (32.3%).
